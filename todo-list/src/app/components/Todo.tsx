@@ -1,3 +1,6 @@
+import { ListItem } from '@nextui-org/react';
+
 const Todo = () => {
-  return <></>;
+  //task, date, time, delete btn, edit btn
+  return <ListItem></ListItem>;
 };
