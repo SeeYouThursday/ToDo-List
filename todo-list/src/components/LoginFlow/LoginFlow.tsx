@@ -20,6 +20,7 @@ import {
 import { MailIcon } from '../ui/MailIcon.jsx';
 import { LockIcon } from '../ui/LockIcon.jsx';
 import { setTimeout } from 'timers';
+import { validateEmail } from '../../../utils';
 
 export default function LoginFlow() {
   // handles opening/closing the modal login form
@@ -43,6 +44,7 @@ export default function LoginFlow() {
     return false;
   });
 
+  //tracks whether the user is signed in -//?? consider changing to useContext
   useEffect(() => {
     localStorage.setItem('signedUp', String(signedUp));
   }, [signedUp]);
@@ -82,8 +84,6 @@ export default function LoginFlow() {
   // };
 
   // !Future Dev above
-  const validateEmail = (email: string) =>
-    email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
 
   const isInvalid = useMemo(() => {
     if (email === '') return false;
@@ -94,12 +94,6 @@ export default function LoginFlow() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setError(false);
     e.preventDefault();
-    // if (signingUp) {
-    //make sure password matches reentry
-    //handle form data
-    //db action here
-    // }
-    console.log('submit');
     try {
       if (signingUp) {
         const newUser = await signUp();
@@ -115,8 +109,6 @@ export default function LoginFlow() {
     } catch (err) {
       setError(true);
     }
-
-    //write db login here
   };
 
   return (
