@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
 import { ListboxItem, Button } from '@nextui-org/react';
+import TodoForm from '../Form/TodoForm';
 import { db } from '../../../config/firebaseConfig';
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 interface Todo {
   task: string;
-  time: Date;
+  timestamp: Date;
   id: string;
+  completed: boolean;
+  user_id: string;
 }
 
-const Todo = ({ task, time, id }: Todo) => {
+const Todo = ({ task, timestamp, id, completed, user_id }: Todo) => {
   const [todos, setTodos] = useState<Todo[]>([]);
 
   useEffect(() => {
@@ -16,19 +19,28 @@ const Todo = ({ task, time, id }: Todo) => {
     const q = query(collection(db, 'tasks'), orderBy('timestamp', 'desc'));
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      setTodos(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id } as Todo))); // Add 'as Todo' to ensure type compatibility
+      setTodos(
+        snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id } as Todo))
+      ); // Add 'as Todo' to ensure type compatibility
       // setInput("") //not sure what this does
     });
     return unsubscribe;
   }, []); //will query tasks on load of component
 
   //task, date, time, delete btn, edit btn
+
   return (
-    <ListboxItem key={id}>
-      {task} to be completed by {time.toString()}
-      <Button>Delete</Button>
-      <Button>Edit</Button>
-    </ListboxItem>
+    <>
+      {todos.map((todo) => {
+        return (
+          <ListboxItem key={todo.id}>
+            {todo.task} to be completed by {todo.timestamp.toString()}
+            <Button>Delete</Button>
+            {!todo.completed ? <TodoForm /> : null}
+          </ListboxItem>
+        );
+      })}
+    </>
   );
 };
 

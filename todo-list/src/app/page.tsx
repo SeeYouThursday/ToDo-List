@@ -23,13 +23,6 @@ export default function Home() {
     >
       {/* <h1 className="name">Do This Or Else</h1> */}
       <div className="flex flex-col justify-center items-center">
-        {/* <Image
-          src="/logos/do-this-main-small.gif"
-          width={300}
-          height={200}
-          alt="Do This or Else!"
-          radius="md"
-        /> */}
         <h1 className="name">Do This Or Else</h1>
         {/* <h2 className="subheading italic">Stop Complaining, just do it.</h2> */}
       </div>

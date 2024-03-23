@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import {
   Modal,
   ModalContent,
@@ -10,8 +11,16 @@ import {
   Input,
 } from '@nextui-org/react';
 
-export default function TodoForm() {
+export default function TodoForm({ editable }: { editable: boolean }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [task, setTask] = useState('');
+  const [dueDate, setDueDate] = useState('');
+  // const [] = useState('');
+  const [edit, setEditable] = useState(false);
+
+  if (editable) {
+    setEditable(editable);
+  }
 
   return (
     <>
@@ -45,6 +54,7 @@ export default function TodoForm() {
                     placeholder="Enter your task"
                     variant="bordered"
                     className="p-4 w-50"
+                    onChange={(e) => setTask(e.target.value)}
                   />
                   <Input
                     label="Due Date"
@@ -52,6 +62,7 @@ export default function TodoForm() {
                     type="time"
                     variant="bordered"
                     className="p-4 w-50"
+                    onChange={(e) => setDueDate(e.target.value)}
                   />
                 </form>
               </ModalBody>
