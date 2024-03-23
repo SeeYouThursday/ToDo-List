@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import { useEffect } from 'react';
 import {
   Card,
   CardBody,
@@ -10,7 +10,7 @@ import {
   CardFooter,
   Divider,
 } from '@nextui-org/react';
-
+import SignUp from '@/components/LoginFlow/LoginFlow';
 import TodoForm from '@/components/Form/TodoForm';
 //import Authentication
 //Conditionally render ToDo Form Modal vs the login/signup btn in the card
@@ -60,9 +60,7 @@ export default function Home() {
           className="flex flex-col items-center justify-center ms-3 p-4"
         >
           <h2>Do This</h2>
-          <Button size="lg" color="secondary" className="mb-2">
-            <h4>Sign Up Now</h4>
-          </Button>
+          <SignUp />
           <TodoForm />
         </Card>
       </div>

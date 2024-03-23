@@ -7,9 +7,7 @@ import {
   ModalFooter,
   Button,
   useDisclosure,
-  Checkbox,
   Input,
-  Link,
 } from '@nextui-org/react';
 
 export default function TodoForm() {
@@ -17,7 +15,12 @@ export default function TodoForm() {
 
   return (
     <>
-      <Button onPress={onOpen} color="secondary" size="lg" className="m-2">
+      <Button
+        onPress={onOpen}
+        color="secondary"
+        size="lg"
+        className="m-2 w-full"
+      >
         Just Do This
       </Button>
 

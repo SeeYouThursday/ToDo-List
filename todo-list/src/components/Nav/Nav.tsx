@@ -11,23 +11,17 @@ import {
   NavbarMenuItem,
   Link,
   Button,
+  Modal,
 } from '@nextui-org/react';
+import LogoutBtn from '@/components/LogoutBtn/LogoutBtn';
+import LoginFlow from '@/components/LoginFlow/LoginFlow';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../../config/firebaseConfig';
 
 export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
-  const menuItems = [
-    'Profile',
-    'Dashboard',
-    'Activity',
-    'Analytics',
-    'System',
-    'Deployments',
-    'My Settings',
-    'Team Settings',
-    'Help & Feedback',
-    'Log Out',
-  ];
+  const menuItems = ["ToDo's"];
 
   return (
     <Navbar
@@ -67,26 +61,16 @@ export default function Nav() {
           <Link href="#">Login</Link>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            Sign Up
-          </Button>
+          <LoginFlow />
+        </NavbarItem>
+        <NavbarItem>
+          <LogoutBtn />
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              color={
-                index === 2
-                  ? 'primary'
-                  : index === menuItems.length - 1
-                  ? 'danger'
-                  : 'foreground'
-              }
-              className="w-full"
-              href="#"
-              size="lg"
-            >
+            <Link color={'foreground'} className="w-full" href="#" size="lg">
               {item}
             </Link>
           </NavbarMenuItem>
