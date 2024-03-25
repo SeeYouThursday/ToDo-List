@@ -11,7 +11,7 @@ interface Todo {
   user_id: string;
 }
 
-const Todo = ({ task, timestamp, id, completed, user_id }: Todo) => {
+const Todo = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const Todo = ({ task, timestamp, id, completed, user_id }: Todo) => {
           <ListboxItem key={todo.id}>
             {todo.task} to be completed by {todo.timestamp.toString()}
             <Button>Delete</Button>
-            {!todo.completed ? <TodoForm /> : null}
+            {!todo.completed ? <TodoForm editable={false} /> : null}
           </ListboxItem>
         );
       })}

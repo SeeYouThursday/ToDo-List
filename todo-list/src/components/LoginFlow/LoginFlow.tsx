@@ -20,7 +20,7 @@ import {
 import { MailIcon } from '../ui/MailIcon.jsx';
 import { LockIcon } from '../ui/LockIcon.jsx';
 import { setTimeout } from 'timers';
-import { validateEmail } from '../../../utils';
+import { validateEmail } from '../../../utils/helper.ts';
 
 export default function LoginFlow() {
   // handles opening/closing the modal login form

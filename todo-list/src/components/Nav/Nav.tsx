@@ -21,7 +21,7 @@ import { auth } from '../../../config/firebaseConfig';
 export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
-  const menuItems = ["ToDo's"];
+  const menuItems = ['ToDos'];
 
   return (
     <Navbar
@@ -38,22 +38,15 @@ export default function Nav() {
           {/* <p className="font-bold text-inherit">Do This Or Else</p> */}
         </NavbarBrand>
       </NavbarContent>
-
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+      {/*//!! Check Weather-This for fix to responsiveness of nav menu  */}
+      <NavbarContent className="hidden md:flex gap-4" justify="center">
         <NavbarItem>
-          <Link color="foreground" href="#">
-            Features
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive>
-          <Link href="#" aria-current="page">
-            Customers
+          <Link color="foreground" href="/">
+            Home
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#">
-            Integrations
-          </Link>
+          <Link href="/dashboard">Dashboard</Link>
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
@@ -62,6 +55,9 @@ export default function Nav() {
         </NavbarItem>
         <NavbarItem>
           <LoginFlow />
+        </NavbarItem>
+        <NavbarItem>
+          <Link href="/dashboard">Dashboard</Link>
         </NavbarItem>
         <NavbarItem>
           <LogoutBtn />

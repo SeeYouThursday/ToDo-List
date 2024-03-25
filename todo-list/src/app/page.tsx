@@ -54,7 +54,7 @@ export default function Home() {
         >
           <h2>Do This</h2>
           <SignUp />
-          <TodoForm />
+          <TodoForm editable={false} />
         </Card>
       </div>
     </div>
