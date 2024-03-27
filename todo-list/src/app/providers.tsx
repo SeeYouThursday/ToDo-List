@@ -16,4 +16,4 @@ export default function Providers({ children }: ProviderProps<null>) {
       <NextUIProvider>{children}</NextUIProvider>
     </AuthContext.Provider>
   );
-} // Add a closing curly brace '}' at the end of the function body
+}
