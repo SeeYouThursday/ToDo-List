@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithPopup,
   signInWithEmailAndPassword,
+  updateProfile,
   signOut,
 } from 'firebase/auth';
 
@@ -26,6 +27,7 @@ export default function LoginFlow() {
   // handles opening/closing the modal login form
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   //tracking input to form onChange
+  const [firstName, setFirstName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [reentered, setReentered] = useState('');
@@ -57,6 +59,10 @@ export default function LoginFlow() {
   const signUp = async () => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      if (!auth.currentUser) {
+        throw new Error();
+      }
+      await updateProfile(auth.currentUser, { displayName: firstName });
       setSuccess(true);
       setSignedUp(true);
     } catch (err) {
@@ -140,6 +146,23 @@ export default function LoginFlow() {
                       onSubmit={handleSubmit}
                       className="flex-col py-2 px-1 justify-between"
                     >
+                      {!signingUp ? null : (
+                        <Input
+                          autoFocus
+                          endContent={
+                            <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                          }
+                          label="First Name"
+                          placeholder="Enter your first name"
+                          variant="bordered"
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                          isInvalid={isInvalid}
+                          className="mb-2"
+                        >
+                          First Name
+                        </Input>
+                      )}
                       <Input
                         autoFocus
                         endContent={
