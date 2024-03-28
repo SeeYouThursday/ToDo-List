@@ -1,3 +1,4 @@
+'use client';
 import { useState, useMemo, useEffect } from 'react';
 import { auth, googleProvider } from '../../../config/firebaseConfig.js';
 import {
@@ -18,8 +19,8 @@ import {
   useDisclosure,
   Input,
 } from '@nextui-org/react';
-import { MailIcon } from '../ui/MailIcon.jsx';
-import { LockIcon } from '../ui/LockIcon.jsx';
+import { MailIcon } from '../../components/ui/MailIcon.jsx';
+import { LockIcon } from '../../components/ui/LockIcon.jsx';
 import { setTimeout } from 'timers';
 import { validateEmail } from '../../../utils/helper.ts';
 
@@ -142,6 +143,7 @@ export default function LoginFlow() {
                   </ModalHeader>
 
                   <ModalBody>
+                    {/* Future Dev: move Login Form to its own component in @/components/LoginFlow  */}
                     <form
                       onSubmit={handleSubmit}
                       className="flex-col py-2 px-1 justify-between"

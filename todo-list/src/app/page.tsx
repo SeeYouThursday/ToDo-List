@@ -1,5 +1,6 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState, useContext } from 'react';
+
 import {
   Card,
   CardBody,
@@ -10,12 +11,27 @@ import {
   CardFooter,
   Divider,
 } from '@nextui-org/react';
-import SignUp from '@/components/LoginFlow/LoginFlow';
+import SignUp from '@/app/login/page';
 import TodoForm from '@/components/Form/TodoForm';
 //import Authentication
-//Conditionally render ToDo Form Modal vs the login/signup btn in the card
+import { AuthContext } from './GlobalContext';
+import { onAuthStateChanged } from 'firebase/auth';
 
+//Conditionally render ToDo Form Modal vs the login/signup btn in the card
 export default function Home() {
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
+  const auth = useContext(AuthContext);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+
+    // Clean up the onAuthStateChanged listener when the component is unmounted
+    return () => unsubscribe();
+  }, []);
   return (
     <div
       className="flex flex-col lg:justify-center lg:items-center mx-4 space-x-3"
@@ -53,7 +69,8 @@ export default function Home() {
           className="flex flex-col items-center justify-center ms-3 p-4"
         >
           <h2>Do This</h2>
-          <SignUp />
+          {user ? null : <SignUp />}
+          {loading ? <div>Loading...</div> : null}
           <TodoForm editable={false} />
         </Card>
       </div>

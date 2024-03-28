@@ -1,6 +1,8 @@
 'use client';
-
 import React from 'react';
+import { useContext, useState, useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+
 import {
   Navbar,
   NavbarBrand,
@@ -14,14 +16,37 @@ import {
   Modal,
 } from '@nextui-org/react';
 import LogoutBtn from '@/components/LogoutBtn/LogoutBtn';
-import LoginFlow from '@/components/LoginFlow/LoginFlow';
+import LoginFlow from '@/app/login/page';
 import { signOut } from 'firebase/auth';
-import { auth } from '../../../config/firebaseConfig';
+// import { auth } from '../../../config/firebaseConfig';
+import { AuthContext } from '../../app/GlobalContext';
 
 export default function Nav() {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
+  const auth = useContext(AuthContext);
 
-  const menuItems = ['ToDos'];
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+
+    // Clean up the onAuthStateChanged listener when the component is unmounted
+    return () => unsubscribe();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>; // or your custom loading component
+  }
+  {
+    /*//TODO Future Dev: Make NavItems disappear when the screen is sm*/
+  }
+  const menuItems = [
+    { name: 'Home', href: '/' },
+    { name: 'Dashboard', href: '/dashboard' },
+  ];
 
   return (
     <Navbar
@@ -38,7 +63,7 @@ export default function Nav() {
           {/* <p className="font-bold text-inherit">Do This Or Else</p> */}
         </NavbarBrand>
       </NavbarContent>
-      {/*//!! Check Weather-This for fix to responsiveness of nav menu  */}
+
       <NavbarContent className="hidden md:flex gap-4" justify="center">
         <NavbarItem>
           <Link color="foreground" href="/">
@@ -51,7 +76,8 @@ export default function Nav() {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
+          {user !== null ? <LoginFlow /> : null}
+          {/* <Link href="#">Login</Link> */}
         </NavbarItem>
         <NavbarItem>
           <LoginFlow />
@@ -59,15 +85,18 @@ export default function Nav() {
         <NavbarItem>
           <Link href="/dashboard">Dashboard</Link>
         </NavbarItem>
-        <NavbarItem>
-          <LogoutBtn />
-        </NavbarItem>
+        <NavbarItem>{user !== null ? <LogoutBtn /> : null}</NavbarItem>
       </NavbarContent>
       <NavbarMenu>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
-            <Link color={'foreground'} className="w-full" href="#" size="lg">
-              {item}
+            <Link
+              color={'foreground'}
+              className="w-full"
+              href={item.href}
+              size="lg"
+            >
+              {item.name}
             </Link>
           </NavbarMenuItem>
         ))}
