@@ -15,9 +15,12 @@ function ClockDisplay() {
   }, []);
 
   return (
-    <>
+    <div
+      className="overflow-hidden flex justify-center items-center"
+      style={{ maxWidth: 200 }}
+    >
       <Clock value={value} renderNumbers={true} />
-    </>
+    </div>
   );
 }
 

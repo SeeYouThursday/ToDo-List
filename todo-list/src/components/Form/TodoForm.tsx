@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import {
@@ -11,16 +12,17 @@ import {
   Input,
 } from '@nextui-org/react';
 
-export default function TodoForm({ editable }: { editable: boolean }) {
+export default function TodoForm() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [task, setTask] = useState('');
   const [dueDate, setDueDate] = useState('');
   // const [] = useState('');
-  const [edit, setEditable] = useState(false);
 
-  if (editable) {
-    setEditable(editable);
-  }
+  useEffect(() => {
+    //post to firestore db
+    //use the task and dueDate to fill
+    // use authCurrentUser Context to fill user id
+  });
 
   return (
     <>

@@ -1,5 +1,4 @@
 import { Card, CardBody, CardHeader } from '@nextui-org/react';
-
 const Layout = ({
   children,
   clock,
@@ -11,15 +10,15 @@ const Layout = ({
 }) => {
   return (
     <>
-      {' '}
-      <div className="flex flex-col justify-start items-center">
+      <div className="flex flex-col md:flex-row justify-center items-center">
         <div>{children}</div>
-        <div className="flex justify-space">
-          {todos}
-          <Card className="flex items-center justify-center overflow-clip">
-            <CardBody className="items-center p-3">{clock}</CardBody>
-          </Card>
-        </div>
+        <Card
+          className="flex items-center justify-center w-64"
+          style={{ width: 200 }}
+        >
+          <CardBody>{clock}</CardBody>
+        </Card>
+        <div style={{ marginTop: 10, width: 200 }}>{todos}</div>
       </div>
     </>
   );

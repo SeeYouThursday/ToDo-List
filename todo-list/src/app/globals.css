@@ -29,8 +29,43 @@ body {
 }
 
 main {
+  z-index: 1000;
   height: 80vh;
   height: 80svh;
+}
+
+.backgroundImage {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('/coffee-agenda-bg.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  height: 100svh;
+  width: 100vw;
+  width: 100svw;
+  z-index: -100;
+  position: relative;
+  /* opacity: 0.6; */
+}
+
+.aboveImage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: aliceblue;
+  padding: 5%;
+  border-radius: 5%;
+}
+
+.frontCard {
+  /* background-image: url('/bg.jpg'); */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  /* opacity: 0.6; */
 }
 
 /* footer {

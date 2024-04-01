@@ -1,7 +1,9 @@
 'use client';
 
+import { BeatLoader } from 'react-spinners';
 import { AuthContext } from '../GlobalContext';
 import { useContext, useState, useEffect } from 'react';
+import TodoForm from '../../components/Form/TodoForm';
 
 const Dashboard = ({}) => {
   const auth = useContext(AuthContext);
@@ -20,11 +22,13 @@ const Dashboard = ({}) => {
   return (
     <div className="m-5 gap-2">
       {loading ? (
-        <h2>Loading...</h2>
+        <BeatLoader loading={loading} />
       ) : (
-        <h1>Welcome, {String(auth.currentUser.displayName)}</h1>
+        <>
+          <h1>Welcome, {String(auth?.currentUser.displayName)}</h1>
+          <TodoForm />
+        </>
       )}
-      <></>
     </div>
   );
 };

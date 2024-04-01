@@ -2,7 +2,7 @@
 import React from 'react';
 import { useContext, useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-
+import BeatLoader from 'react-spinners/BeatLoader';
 import {
   Navbar,
   NavbarBrand,
@@ -38,7 +38,11 @@ export default function Nav() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>; // or your custom loading component
+    return (
+      <div className="flex justify-center items-center">
+        <BeatLoader />
+      </div>
+    ); // or your custom loading component
   }
   {
     /*//TODO Future Dev: Make NavItems disappear when the screen is sm*/
@@ -76,7 +80,9 @@ export default function Nav() {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          {user !== null ? <LoginFlow /> : null}
+          {user !== null ? (
+            <>{loading ? <BeatLoader loading={loading} /> : <LoginFlow />}</>
+          ) : null}
           {/* <Link href="#">Login</Link> */}
         </NavbarItem>
         <NavbarItem>
