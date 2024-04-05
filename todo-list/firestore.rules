@@ -1,8 +1,7 @@
 service cloud.firestore {
-  match /databases/{database}/documents {
-    // Allow only authenticated content owners access
-    match /todos/{userId}/{documents=**} {
-      allow read, write: if request.auth != null && request.auth.uid == userId
+  match /databases/TaskDb/documents {
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
     }
   }
 }

@@ -1,8 +1,12 @@
 'use client';
 import React from 'react';
 import { useContext, useState, useEffect } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
+// Auth Imports
+import { onAuthStateChanged, User } from 'firebase/auth';
+import { AuthContext } from '../../app/GlobalContext';
+// UI Imports
 import BeatLoader from 'react-spinners/BeatLoader';
+import LogoutBtn from '@/components/LogoutBtn/LogoutBtn';
 import {
   Navbar,
   NavbarBrand,
@@ -12,14 +16,7 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   Link,
-  Button,
-  Modal,
 } from '@nextui-org/react';
-import LogoutBtn from '@/components/LogoutBtn/LogoutBtn';
-import LoginFlow from '@/app/login/page';
-import { signOut } from 'firebase/auth';
-// import { auth } from '../../../config/firebaseConfig';
-import { AuthContext } from '../../app/GlobalContext';
 
 export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -31,6 +28,7 @@ export default function Nav() {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
+      console.log(user);
     });
 
     // Clean up the onAuthStateChanged listener when the component is unmounted
@@ -81,15 +79,22 @@ export default function Nav() {
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
           {user !== null ? (
-            <>{loading ? <BeatLoader loading={loading} /> : <LoginFlow />}</>
-          ) : null}
-          {/* <Link href="#">Login</Link> */}
+            <>
+              {loading ? (
+                <BeatLoader loading={loading} />
+              ) : (
+                <Link href="/login">Login</Link>
+              )}
+            </>
+          ) : (
+            <NavbarItem>
+              <Link href="/dashboard">Dashboard</Link>
+            </NavbarItem>
+          )}
         </NavbarItem>
         <NavbarItem>
-          <LoginFlow />
-        </NavbarItem>
-        <NavbarItem>
-          <Link href="/dashboard">Dashboard</Link>
+          <BeatLoader loading={loading} />
+          {user ? null : <Link href="/login">Login</Link>}
         </NavbarItem>
         <NavbarItem>{user !== null ? <LogoutBtn /> : null}</NavbarItem>
       </NavbarContent>

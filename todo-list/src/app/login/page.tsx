@@ -8,15 +8,6 @@ import { AuthContext } from '../GlobalContext';
 // UI Imports
 import LoginForm from '@/components/LoginFlow/Login.tsx';
 import BeatLoader from 'react-spinners/BeatLoader';
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-} from '@nextui-org/react';
 
 export default function LoginFlow() {
   // handles opening/closing the modal login form
@@ -25,6 +16,7 @@ export default function LoginFlow() {
   const [user, setUser] = useState<User | null>(null);
 
   const auth = useContext(AuthContext);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);

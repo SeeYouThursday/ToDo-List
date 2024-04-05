@@ -7,8 +7,10 @@ import {
   updateProfile,
   signOut,
 } from 'firebase/auth';
-import { auth, googleProvider } from '../../../config/firebaseConfig.js';
-import { validateEmail } from '../../../utils/helper.ts';
+// DB Imports
+import { collection, addDoc } from 'firebase/firestore';
+import { auth, googleProvider, db } from '../../../config/firebaseConfig.js';
+import { validateEmail } from '../../app/_lib/utils/helper.ts';
 // UI Imports
 import { Button, Input } from '@nextui-org/react';
 import { MailIcon } from '../../components/ui/MailIcon.jsx';
@@ -52,9 +54,23 @@ const LoginForm = () => {
         throw new Error();
       }
       await updateProfile(auth.currentUser, { displayName: firstName });
+      // Create a user in the 'users' collection
+
+      //stores user info in userDoc
+      const userDoc = {
+        uid: auth.currentUser.uid,
+        email: email,
+        displayName: firstName,
+      };
+      //creates the user in 'users'
+      const docRef = await addDoc(collection(db, 'users'), userDoc);
+
+      console.log(`Document written with ID: ${docRef.id}`);
+
       setSuccess(true);
       setSignedUp(true);
     } catch (err) {
+      console.log(err);
       setError(true);
     }
   };
@@ -95,6 +111,7 @@ const LoginForm = () => {
       setError(true);
     }
   };
+  
   return (
     <form
       onSubmit={handleSubmit}
@@ -103,9 +120,6 @@ const LoginForm = () => {
       {!signingUp ? null : (
         <Input
           autoFocus
-          endContent={
-            <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-          }
           label="First Name"
           placeholder="Enter your first name"
           variant="bordered"
@@ -131,10 +145,8 @@ const LoginForm = () => {
         className="mb-2"
       />
       <Input
-        endContent={
-          <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-        }
-        label="Password: at least 6 characters long"
+        description="at least 6 characters long"
+        label="Password"
         placeholder={signingUp ? 'New Password' : 'Enter your password'}
         type="password"
         variant="bordered"
@@ -145,9 +157,6 @@ const LoginForm = () => {
       />
       {!signingUp ? null : (
         <Input
-          endContent={
-            <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-          }
           label="Re-enter Password"
           placeholder="Re-enter your password"
           type="password"
@@ -161,11 +170,11 @@ const LoginForm = () => {
         />
       )}
       <div className="flex justify-between flex-col mt-2">
-        {/* {error ? (
-<p className="text-danger">
-  Incorrect Email or Password. Please try again.
-</p>
-) : null} */}
+        {error ? (
+          <p className="text-danger">
+            Incorrect Email or Password. Please try again.
+          </p>
+        ) : null}
         {!signingUp ? (
           <>
             <Button

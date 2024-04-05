@@ -1,17 +1,15 @@
 'use client';
 
 import { useState, useEffect, useContext } from 'react';
-import { queryTodos } from '../../../../actions';
+import { queryTodos } from '../../../../config/actions';
 import { AuthContext } from '../../GlobalContext';
 import { Card, CardBody, CardHeader } from '@nextui-org/react';
+import TodosQuery from '@/components/Todos/TodosQuery';
 
 function Todos() {
   const [todos, setTodos] = useState([]);
   const [user, setUser] = useState<string>(''); // Specify the type of 'user' as string
   const auth = useContext(AuthContext);
-
-  let num: number = Number('ten');
-  console.log(10 + num);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -35,6 +33,7 @@ function Todos() {
           <h2>Todos Go Here</h2>
         </CardHeader>
         <CardBody>
+          <TodosQuery />
           <ul>
             {todos.map((todo: { user_id: string; task: string }) => (
               <li key={todo.user_id}>{todo.task}</li>

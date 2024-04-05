@@ -1,5 +1,5 @@
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
-import { db } from './config/firebaseConfig'; // assuming you have a db instance exported from firebase.js
+import { db } from './firebaseConfig'; // assuming you have a db instance exported from firebase.js
 
 export const queryTodos = (userId: string) => {
   const todosRef = collection(db, 'todos');

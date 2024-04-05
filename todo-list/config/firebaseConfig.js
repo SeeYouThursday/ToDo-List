@@ -13,7 +13,13 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+export const authPromise = new Promise((resolve, reject) => {
+  const auth = getAuth(app);
+  resolve(auth);
+});
+
 export const auth = getAuth(app);
+
 export { app };
 export const googleProvider = new GoogleAuthProvider(); //24:38 of video
 
